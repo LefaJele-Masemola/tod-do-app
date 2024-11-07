@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Task Manager</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <header>
+    <h1>Task Manager</h1>
+    <p>Manage your tasks easily and efficiently!</p>
+  </header>
+
+  <main>
+    <!-- Task Add Form -->
+    <section id="task-form">
+      <h2>Add New Task</h2>
+      <form id="task-form-content">
+        <input type="text" id="task-name" placeholder="Task Name" required>
+        <select id="importance">
+          <option value="Low">Low</option>
+          <option value="Medium">Medium</option>
+          <option value="High">High</option>
+        </select>
+        <input type="datetime-local" id="reminder" placeholder="Reminder">
+        <input type="text" id="category" placeholder="Category">
+        <input type="datetime-local" id="due-date">
+        <button type="submit">Add Task</button>
+      </form>
+    </section>
+
+    <!-- Task List -->
+    <section id="task-list-section">
+      <h2>Your Tasks</h2>
+      <ul id="task-list"></ul>
+    </section>
+  </main>
+
+  <footer>
+    <p>&copy; 2024 Task Manager. All rights reserved.</p>
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
