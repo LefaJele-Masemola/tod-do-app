@@ -18,6 +18,7 @@
       <h2>Add New Task</h2>
       <form id="task-form-content">
         <input type="text" id="task-name" placeholder="Task Name" required>
+        <label for="importance">Importance:</label>
         <select id="importance">
           <option value="Low">Low</option>
           <option value="Medium">Medium</option>
@@ -25,7 +26,8 @@
         </select>
         <input type="datetime-local" id="reminder" placeholder="Reminder">
         <input type="text" id="category" placeholder="Category">
-        <input type="datetime-local" id="due-date">
+        <label for="due-date">Due Date:</label>
+        <input type="datetime-local" id="due-date" placeholder="Select due date">
         <button type="submit">Add Task</button>
       </form>
     </section>

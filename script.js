@@ -1,14 +1,12 @@
-const baseUrl = 'http://localhost:5000/api/tasks'; // Update with the correct API route
+// Mock data for testing frontend functionality
+let tasks = [
+  { _id: '1', name: 'Task 1', importance: 'High', reminder: '2024-11-06', category: 'Work', dueDate: '2024-11-10', completed: false },
+  { _id: '2', name: 'Task 2', importance: 'Low', reminder: '2024-11-06', category: 'Personal', dueDate: '2024-11-12', completed: false },
+];
 
-// Fetch tasks from the server
-const getTasks = async () => {
-  try {
-    const response = await fetch(baseUrl);
-    const tasks = await response.json();
-    renderTasks(tasks);
-  } catch (error) {
-    console.error('Error loading tasks:', error);
-  }
+// Fetch tasks (from mock data)
+const getTasks = () => {
+  renderTasks(tasks); // Directly render tasks from mock data
 };
 
 // Render tasks on the frontend
@@ -21,6 +19,9 @@ const renderTasks = (tasks) => {
       <span>${task.name}</span> 
       <span>(${task.importance})</span> 
       <span>Due: ${new Date(task.dueDate).toLocaleString()}</span>
+      <span>Reminder: ${new Date(task.reminder).toLocaleString()}</span>
+      <span>Category: ${task.category}</span>
+      <span>Status: ${task.completed ? 'Completed' : 'Incomplete'}</span>
       <button onclick="markComplete('${task._id}')">Complete</button>
       <button onclick="deleteTask('${task._id}')">Delete</button>
       <button onclick="editTask('${task._id}')">Edit</button>
@@ -29,8 +30,8 @@ const renderTasks = (tasks) => {
   });
 };
 
-// Add new task
-const addNewTask = async (event) => {
+// Add new task (mock functionality)
+const addNewTask = (event) => {
   event.preventDefault();
   const taskName = document.getElementById('task-name').value;
   const importance = document.getElementById('importance').value;
@@ -38,48 +39,40 @@ const addNewTask = async (event) => {
   const category = document.getElementById('category').value;
   const dueDate = document.getElementById('due-date').value;
 
-  const newTask = { name: taskName, importance, reminder, category, dueDate };
+  const newTask = {
+    _id: Date.now().toString(), // Unique ID using timestamp
+    name: taskName,
+    importance,
+    reminder,
+    category,
+    dueDate,
+    completed: false,
+  };
 
-  try {
-    const response = await fetch(baseUrl, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify(newTask),
-    });
+  tasks.push(newTask); // Add to the mock data array
+  renderTasks(tasks);  // Re-render tasks list
+};
 
-    const addedTask = await response.json();
-    renderTasks([addedTask]); // Update the task list with the new task
-  } catch (error) {
-    console.error('Error adding task:', error);
+// Mark task as complete (mock functionality)
+const markComplete = (id) => {
+  const taskIndex = tasks.findIndex(task => task._id === id);
+  if (taskIndex !== -1) {
+    tasks[taskIndex].completed = true; // Mark the task as complete
+    renderTasks(tasks); // Re-render task list
   }
 };
 
-// Mark task as complete
-const markComplete = async (id) => {
-  try {
-    const response = await fetch(`${baseUrl}/${id}/complete`, { method: 'PATCH' });
-    const updatedTask = await response.json();
-    getTasks(); // Refresh task list
-  } catch (error) {
-    console.error('Error marking task as complete:', error);
-  }
+// Delete task (mock functionality)
+const deleteTask = (id) => {
+  tasks = tasks.filter(task => task._id !== id); // Remove task from mock data
+  renderTasks(tasks); // Re-render task list
 };
 
-// Delete task
-const deleteTask = async (id) => {
-  try {
-    await fetch(`${baseUrl}/${id}`, { method: 'DELETE' });
-    getTasks(); // Refresh task list
-  } catch (error) {
-    console.error('Error deleting task:', error);
-  }
-};
-
-// Edit task (not yet implemented)
-const editTask = async (id) => {
-  // Implement editing functionality here
+// Edit task (not implemented, but can be added later)
+const editTask = (id) => {
+  // For now, just log the task to edit
+  const task = tasks.find(task => task._id === id);
+  console.log('Edit task:', task);
 };
 
 // Call getTasks on page load
